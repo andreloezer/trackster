@@ -43,3 +43,57 @@ input {
 .btn:hover {
   background-color: rgb(255, 102, 204);
 }
+
+input:hover,
+input:focus,
+input:active,
+.btn:hover,
+.btn:focus,
+.btn:active {
+  outline: 0;
+}
+
+
+/* List Head */
+
+#list-head {
+  background-color: rgb(104, 0 ,255);
+  color: rgb(255, 255, 255);
+  padding: 0.5rem;
+}
+
+#list-head li{
+  font-size: 1.2rem;
+}
+
+#list-head li:nth-child(2) {
+  text-align: left;
+}
+
+
+/* Song Section */
+
+#song-section {
+  background-color: rgb(255, 255, 255);
+  color: inherit;
+}
+
+#song-info {
+  align-items: center;
+  display: flex;
+}
+
+#song-section > div {
+  border-bottom: 1px solid rgb(204, 204, 204);
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+#song-section ul {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+.fa-play-circle-o {
+  color: rgb(255, 0, 171);
+}
