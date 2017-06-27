@@ -70,7 +70,7 @@ Trackster.searchTracksByTitle = function(title, sort) {
 
   $('h1').addClass('app-title');
   $.ajax({
-    url: "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + title + "&api_key=" + API_KEY + "&format=json",
+    url: "https://ws.audioscrobbler.com/2.0/?method=track.search&track=" + title + "&api_key=" + API_KEY + "&format=json",
     success: function(response) {
 
       var responseTrack = response.results.trackmatches.track;
