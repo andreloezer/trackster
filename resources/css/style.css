@@ -57,7 +57,7 @@ h1 {
 
 input {
   border-radius: 2rem;
-  color: rgb(191, 191, 191);
+  /*color: rgb(191, 191, 191);*/
   height: 2.5rem;
   padding: 1rem;
 }
@@ -65,11 +65,14 @@ input {
 .btn {
   background-color: rgb(255, 0, 171);
   border-radius: 1.5rem;
+  transition: color 0.3s ease 0.1s,
+              background-color 0.3s ease 0.1s;
   width: 15%;
 }
 
 .btn:hover {
   background-color: rgb(255, 102, 204);
+  color: rgb(191, 191, 191);
 }
 
 input:hover,
@@ -96,6 +99,7 @@ input:active,
   transition: color 0.3s ease 0.1s;
 }
 
+#tracklist-head li:focus,
 #tracklist-head li:hover {
   color: rgb(255, 0, 171);
   cursor: pointer;
@@ -128,8 +132,15 @@ input:active,
 
 #tracklist-section > div {
   border-bottom: 1px solid rgb(204, 204, 204);
+
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
+  transition: background-color 0.3s ease 0.1s;
+}
+
+#tracklist-section > div:focus,
+#tracklist-section > div:hover {
+  background-color: rgb(191, 191, 191);
 }
 
 #tracklist-section ul {
@@ -138,6 +149,7 @@ input:active,
 }
 
 #tracklist-section li:nth-child(4) {
+  height: 64px;
   text-align: center;
 }
 
@@ -146,5 +158,23 @@ input:active,
 }
 
 .fa-play-circle-o {
+  background-color: rgb(35, 2, 63);
+  border-radius: 50%;
+  color: rgb(191, 191, 191);
+  padding: 2px 4px;
+  transition: color 0.3s ease 0.1s,
+              background-color 0.3s ease 0.1s;
+}
+
+.fa-play-circle-o:focus,
+.fa-play-circle-o:hover {
   color: rgb(255, 0, 171);
+  background-color: rgb(191, 191, 191);
+}
+
+p {
+  color: rgb(191, 191, 191);
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
 }
