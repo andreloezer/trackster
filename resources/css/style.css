@@ -27,6 +27,34 @@ h1 {
   margin: 0;
 }
 
+.app-title {
+  animation-name: trackster;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes trackster {
+  from {
+    color: rgb(255, 0, 171);
+    letter-spacing: 0rem;
+  }
+
+  33% {
+    color: rgb(255, 0, 0);
+    letter-spacing: 0.3rem;
+  }
+
+  66% {
+    color: rgb(104, 0 ,255);
+    letter-spacing: 0.6rem;
+  }
+
+  to {
+    color: rgb(255, 0, 171);
+    letter-spacing: 0rem;
+  }
+}
+
 input {
   border-radius: 2rem;
   color: rgb(191, 191, 191);
@@ -54,44 +82,67 @@ input:active,
 }
 
 
-/* List Head */
+/* Tracklist Head */
 
-#list-head {
+#tracklist-head {
   background-color: rgb(104, 0 ,255);
   color: rgb(255, 255, 255);
+  display: none;
   padding: 0.5rem;
 }
 
-#list-head li{
+#tracklist-head li{
   font-size: 1.2rem;
+  transition: color 0.3s ease 0.1s;
 }
 
-#list-head li:nth-child(2) {
+#tracklist-head li:hover {
+  color: rgb(255, 0, 171);
+  cursor: pointer;
+}
+
+#tracklist-head li:nth-child(2) {
   text-align: left;
 }
 
+#tracklist-head li:nth-child(4) {
+  text-align: center;
+}
 
-/* Song Section */
+#tracklist-head li:last-child {
+  text-align: right;
+}
 
-#song-section {
+
+/* Tracks Section */
+
+#tracklist-section {
   background-color: rgb(255, 255, 255);
   color: inherit;
 }
 
-#song-info {
+#track-info {
   align-items: center;
   display: flex;
 }
 
-#song-section > div {
+#tracklist-section > div {
   border-bottom: 1px solid rgb(204, 204, 204);
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
 }
 
-#song-section ul {
+#tracklist-section ul {
   font-size: 1.2rem;
   margin-bottom: 0;
+}
+
+#tracklist-section li:nth-child(4) {
+  text-align: center;
+}
+
+#tracklist-section li:last-child {
+  text-align: right;
 }
 
 .fa-play-circle-o {
