@@ -117,6 +117,11 @@ input:active,
   text-align: right;
 }
 
+#tracklist-head i {
+  display: none;
+  margin-left: 1rem;
+}
+
 
 /* Tracks Section */
 

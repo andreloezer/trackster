@@ -6,8 +6,9 @@ var API_KEY = '86eb9d030d23409b7b148615386b8918'; // personal key to access 'las
 var sortCount = { // keep track of sorting
   name: 1,
   artist: 1,
-  listeners: 1
+  listeners: 1,
 };
+var previousSorting = ''; // stores previous sorting
 
 $(document).ready(function() {
 
@@ -16,19 +17,19 @@ $(document).ready(function() {
   });
 
   $('.track-header').click(function() {
-    Trackster.searchTracksByTitle($('input').val(), 'name')
+    Trackster.sortTracks('name');
   })
 
   $('.artist-header').click(function() {
-    Trackster.searchTracksByTitle($('input').val(), 'artist')
+    Trackster.sortTracks('artist');
   })
 
   $('.album-art').click(function() {
-    Trackster.searchTracksByTitle($('input').val(), 'artist')
+    Trackster.sortTracks('artist');
   })
 
   $('.listeners-header').click(function() {
-    Trackster.searchTracksByTitle($('input').val(), 'listeners')
+    Trackster.sortTracks('listeners');
   })
 
   $(document).keydown(function(e) {
@@ -45,7 +46,6 @@ $(document).ready(function() {
 Trackster.renderTracks = function(tracks) {
   $('#tracklist-section').empty();
   $('#tracklist-head').css('display', 'block');
-
   for (var i = 0; i < tracks.length; i++) {
     var mediumAlbumArt = tracks[i].image[1]["#text"];
     if (mediumAlbumArt.length > 2) { // album art received
@@ -53,7 +53,6 @@ Trackster.renderTracks = function(tracks) {
     } else { // album art is missing
       mediumAlbumArt = '';
     }
-
     var listenersNumber = numeral(tracks[i].listeners).format('0,0'); // format listeners numbers with commas every three decimal places from the left
     var trackList =
       '<div class="row">' +
@@ -65,44 +64,40 @@ Trackster.renderTracks = function(tracks) {
           '<li class="col-xs-2">' + listenersNumber + '</li>' +
         '</ul>' +
       '</div>';
-
     $('#tracklist-section').append(trackList); // append 'trackList' elements to the HTML
   }
-};
+}
 
 /*
   Given a search term as a string, query the LastFM API.
   Render the tracks given in the API query response.
 */
-Trackster.searchTracksByTitle = function(title, sort) {
-  if (sort != undefined) { // call sorting
-    Trackster.sortTracks(sort);
-  } else if (title == '') { // empty input
-    Trackster.renderMessage();
-  } else {
-    if (title) { // input isn't empty
-      sortCount = {
-        name: 1,
-        artist: 1,
-        listeners: 1
-      };
-      $('h1').addClass('app-title'); // animate page title
-      $.ajax({
-        url: "https://ws.audioscrobbler.com/2.0/?method=track.search&track=" + title + "&api_key=" + API_KEY + "&format=json",
-        success: function(response) {
-          responseTrack = response.results.trackmatches.track;
-          Trackster.renderTracks(responseTrack);
-          $('h1').removeClass('app-title'); // remove animation after the list is rendered
-        }
-      });
-
-    } else { // empty input
-      Trackster.renderMessage();
-    }
+Trackster.searchTracksByTitle = function(title) {
+  $(previousSorting).css('display', 'none'); // hide FA from previous sorting
+  if (title) { // input isn't empty
+    $('h1').addClass('app-title'); // animate page title
+    $.ajax({ // request API for 'title' string
+      url: "https://ws.audioscrobbler.com/2.0/?method=track.search&track=" + title + "&api_key=" + API_KEY + "&format=json",
+      success: function(response) {
+        responseTrack = response.results.trackmatches.track;
+        Trackster.renderTracks(responseTrack);
+        $('h1').removeClass('app-title'); // remove animation after the list is rendered
+      }
+    });
+    sortCount = {
+      name: 1,
+      artist: 1,
+      listeners: 1,
+    };
+  } else { // empty input
+    Trackster.warningMessage();
   }
-};
+}
 
-Trackster.renderMessage = function() {
+/*
+  Render Message if search input is empty
+*/
+Trackster.warningMessage = function() {
   $('#tracklist-head').css('display', 'none');
   $('#tracklist-section').empty();
   var emptyQuery = '<p>Type something in the search query</p>'
@@ -126,8 +121,19 @@ Trackster.sortTracks = function(sort) {
       return y[sort] - x[sort];
     }
   })
-
   sortCount[sort] = 1 - sortCount[sort]; // toggles between 0 and 1
+  var currentSorting = '.' + sort; // adjust the string for '$'
+  $(previousSorting).css('display', 'none'); // hide previous FA
+  $(currentSorting).css('display', 'inline'); // show currrent FA
+  switch (sortCount[sort]) { // toggles FA
+    case 0:
+      $(currentSorting).removeClass( "fa-chevron-up" ).addClass( "fa-chevron-down" );
+      break;
+    case 1:
+      $(currentSorting).removeClass( "fa-chevron-down" ).addClass( "fa-chevron-up" );
+      break;
+  }
+  previousSorting = currentSorting; // stores previous sorting
   if (sortCount[sort] == 1) { // reverse sorting order
     responseTrack = responseTrack.reverse();
   }
